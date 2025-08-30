@@ -1,13 +1,53 @@
-import { Text, View, Image, TextInput,Dimensions, Pressable, Touchable, TouchableOpacity, TouchableWithoutFeedback, ScrollView } from "react-native";
+import { Text, View, Image, TextInput,Dimensions, Pressable, Touchable, TouchableOpacity, TouchableWithoutFeedback, ScrollView , Alert, Platform, StyleSheet} from "react-native";
+
+import { useState } from "react";
 
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Index() {
 
 
+  const [firstName , setFirstName] = useState('');
+
+  console.log('first name ', firstName)
+
+
+
+  // HOOKS //
+
+
+
   const {width , height} = Dimensions.get('screen')
 
-  console.log('width :', width, " height : ", height)
+  // console.log('width :', width, " height : ", height)
+
+
+
+  function greetBasedOnDevice(){
+
+
+    // Platform.OS === "ios" ? Alert.alert('hello', "Hello Ios") : Alert.alert('Hello',"Hello Android")
+
+
+    // if(Platform.OS == 'android'){
+    //   Alert.alert("Android", "This is an android device")
+    // }
+
+    // else if(Platform.OS == 'ios'){
+    //    Alert.alert("IOS", "This is an ios device")
+
+    // }
+
+    // else{
+    //   Alert.alert(`${Platform.OS}`, `This is an ${Platform.OS} device`)
+    // }
+
+    Alert.alert(`${Platform.OS}`, `This is a ${2 + 4} device`)
+
+
+
+  }
+
 
 
 
@@ -30,9 +70,64 @@ export default function Index() {
   // myname()
 
   return (
-    <SafeAreaView style={{backgroundColor:'black', flex:1, paddingHorizontal:width*.04}}>
+    <SafeAreaView style={{backgroundColor:'white', flex:1, paddingHorizontal:width*.04}}>
 
-      <ScrollView>
+
+      <Text style={{fontWeight:'bold', fontSize:24, textAlign:'center', marginVertical:30}}>Resuable Components</Text>
+
+
+      <View style={styles.container}>
+        <Text style={styles.label}>First name</Text>
+
+
+      <TextInput  style={styles.input} onChangeText={(text)=>{
+
+
+          // console.log(text)
+
+          setFirstName(text)
+
+
+      }}/>
+
+      </View>
+
+
+
+      <View style={styles.container}>
+        <Text style={styles.label}>Last name</Text>
+
+        <TextInput  style={styles.input}/>
+
+      </View>
+
+
+
+      <View style={styles.container}>
+        <Text style={styles.label}>Email</Text>
+
+
+      <TextInput  style={styles.input}/>
+
+      </View>
+
+
+
+      <View style={styles.container}>
+        <Text style={styles.label}>Password</Text>
+
+
+      <TextInput  style={styles.input}/>
+
+      </View>
+
+
+
+
+
+   
+
+      {/* <ScrollView>
 
 
       <Text style={{color:'red', fontSize:30, fontStyle:"italic"}}>My name is Micheal , and I am a Senior software Engineer.</Text>
@@ -50,6 +145,7 @@ export default function Index() {
       <Pressable onPress={()=>{
 
         console.log('my name is Adefolarin')
+        Alert.alert("Error", 'There was an error!')
 
       }} style={{backgroundColor:'white', width:width*.3, marginTop:40, padding:30}}>
         <Text style={{color:'red'}}>Click me!</Text>
@@ -57,6 +153,7 @@ export default function Index() {
 
       <TouchableOpacity onPress={()=>{
         console.log('I love coding!!')
+        Alert.alert('Success', 'I was clicked successfully!')
 
       }} style={{backgroundColor:'white', padding:40, width:150, marginTop:40}}>
 
@@ -73,12 +170,9 @@ export default function Index() {
 
       </TouchableOpacity>
 
-         <TouchableOpacity onPress={()=>{
-        console.log('I love coding!!')
+         <TouchableOpacity onPress={greetBasedOnDevice} style={{backgroundColor:'white', padding:40, width:150, marginTop:40}}>
 
-      }} style={{backgroundColor:'white', padding:40, width:150, marginTop:40}}>
-
-        <Text style={{color:'blue'}}>Login</Text>
+        <Text style={{color:'blue'}}>Login 33</Text>
 
       </TouchableOpacity>
 
@@ -89,9 +183,29 @@ export default function Index() {
     </View>
 
 
-     </ScrollView>
+     </ScrollView> */}
 
     </SafeAreaView>
 
   );
 }
+
+
+
+const styles = StyleSheet.create({
+
+  label : {
+    fontSize:16,
+    marginBottom:10,
+    color:'black'
+
+  },
+  input:{backgroundColor:'black', borderRadius:25, height:50, padding:10, color:'white'},
+
+  container:{
+    marginBottom:20
+
+  }
+
+
+})
