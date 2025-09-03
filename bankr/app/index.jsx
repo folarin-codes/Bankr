@@ -4,12 +4,38 @@ import { useState } from "react";
 
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import Button from "../components/button";
+
 export default function Index() {
 
 
-  const [firstName , setFirstName] = useState('');
 
-  console.log('first name ', firstName)
+
+
+  const [firstName , setFirstName] = useState('');
+  const [lastName , setLastName] = useState('')
+  const [email , setMail] = useState('')
+  const [password , setPassword] = useState('')
+  const [passwordVisble, setPasswordVisible] = useState(false)
+
+
+  // console.log(`first name : ${firstName}, last name : ${lastName}`)
+
+
+  // useState() ---> returns data and function that updates the data
+  
+  
+  // function useState(){
+
+  // return [data , setterFunction]
+
+
+  //}
+
+
+  console.log(`${firstName} ${lastName}`)
+
+
 
 
 
@@ -80,7 +106,7 @@ export default function Index() {
         <Text style={styles.label}>First name</Text>
 
 
-      <TextInput  style={styles.input} onChangeText={(text)=>{
+      <TextInput keyboardType="default"  style={styles.input} onChangeText={(text)=>{
 
 
           // console.log(text)
@@ -97,7 +123,13 @@ export default function Index() {
       <View style={styles.container}>
         <Text style={styles.label}>Last name</Text>
 
-        <TextInput  style={styles.input}/>
+        <TextInput  style={styles.input} onChangeText={(text)=>{
+
+          // console.log(text)
+
+          setLastName(text)
+
+        }} />
 
       </View>
 
@@ -107,7 +139,9 @@ export default function Index() {
         <Text style={styles.label}>Email</Text>
 
 
-      <TextInput  style={styles.input}/>
+      <TextInput keyboardType="email-address"  style={styles.input} onChangeText={(mail)=>{
+        setMail(mail)
+      }}/>
 
       </View>
 
@@ -117,15 +151,33 @@ export default function Index() {
         <Text style={styles.label}>Password</Text>
 
 
-      <TextInput  style={styles.input}/>
+      <TextInput secureTextEntry={!passwordVisble} style={styles.input} onChangeText={(password)=>{
+        setPassword(password)
+      }}/>
+
+      <TouchableOpacity onPress={()=>{
+
+        setPasswordVisible(!passwordVisble)
+
+
+      }} style={{backgroundColor:'white', position:'absolute', top:45, right:25, padding:2}}>
+        <Text style={{color:'black'}}>{passwordVisble ? 'Hide me' : 'Show me'}</Text>
+      </TouchableOpacity>
 
       </View>
 
 
+      <View>
+
+        <Button buttonStyle={{backgroundColor:'red', borderColor:'green', borderWidth:10}} text={'Sign In'}/>
+
+        <Button buttonStyle={{backgroundColor:'green'}} text={'Login'}/>
+
+        <Button text={'Register'}/>
+
+      </View>
 
 
-
-   
 
       {/* <ScrollView>
 
