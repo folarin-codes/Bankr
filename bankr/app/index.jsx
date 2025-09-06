@@ -1,10 +1,12 @@
 import { Text, View, Image, TextInput,Dimensions, Pressable, Touchable, TouchableOpacity, TouchableWithoutFeedback, ScrollView , Alert, Platform, StyleSheet} from "react-native";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import Button from "../components/button";
+
+import { router } from "expo-router";
 
 export default function Index() {
 
@@ -17,6 +19,24 @@ export default function Index() {
   const [email , setMail] = useState('')
   const [password , setPassword] = useState('')
   const [passwordVisble, setPasswordVisible] = useState(false)
+
+  // useEffect(effect , dependeies)
+
+  // useEffect(()=>{} , [])
+
+
+  useEffect(()=>{
+
+    console.log('This was fired from the useEffcet hook')
+
+
+
+  }, [firstName, lastName])
+
+
+
+
+
 
 
   // console.log(`first name : ${firstName}, last name : ${lastName}`)
@@ -33,7 +53,6 @@ export default function Index() {
   //}
 
 
-  console.log(`${firstName} ${lastName}`)
 
 
 
@@ -169,9 +188,16 @@ export default function Index() {
 
       <View>
 
-        <Button buttonStyle={{backgroundColor:'red', borderColor:'green', borderWidth:10}} text={'Sign In'}/>
+        <Button onPress={()=>{
 
-        <Button buttonStyle={{backgroundColor:'green'}} text={'Login'}/>
+          router.push('./profile')
+       
+
+        }} buttonStyle={{backgroundColor:'red', borderColor:'green', borderWidth:10}} text={'Sign In'}/>
+
+        <Button onPress={()=> {
+          console.log('I was pressed')
+        }} buttonStyle={{backgroundColor:'green'}} text={'Login'}/>
 
         <Button text={'Register'}/>
 
