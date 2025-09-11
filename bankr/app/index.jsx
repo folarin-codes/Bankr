@@ -199,7 +199,9 @@ export default function Index() {
           console.log('I was pressed')
         }} buttonStyle={{backgroundColor:'green'}} text={'Login'}/>
 
-        <Button text={'Register'}/>
+        <Button onPress={()=>{
+          router.push('./movie')
+        }} text={'Register'}/>
 
       </View>
 
