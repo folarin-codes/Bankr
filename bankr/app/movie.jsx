@@ -1,5 +1,6 @@
-import { Text, ActivityIndicator, Alert, View, Image, ScrollView } from "react-native";
+import { Text, ActivityIndicator, Alert, View, Image, ScrollView, FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context"
+import axios from 'axios'
 
 import { useEffect, useState } from "react";
 
@@ -10,21 +11,27 @@ import { useEffect, useState } from "react";
 	// method: 'GET',
 
 	// headers: {
-		// 'x-rapidapi-key': '05f1179be4mshfdce8c5340638d0p1a85f3jsn97608f89afcf',
-		// 'x-rapidapi-host': 'imdb236.p.rapidapi.com'
+	// 	'x-rapidapi-key': '05f1179be4mshfdce8c5340638d0p1a85f3jsn97608f89afcf',
+	// 	'x-rapidapi-host': 'imdb236.p.rapidapi.com'
 	// }
 
 const MovieScreen = ()=>{
 
 
     const [isFetching , setIsFetching] = useState(false)
-    const [moviesData , setMoviesData] = useState(null)
+
+    const [moviesData , setMoviesData] = useState([])
+
+
+    console.log(`The amount of items in my array is ${moviesData?.length}`)
 
 
 
     useEffect(()=>{
 
-        getMovies()
+        // getMovies()
+
+        getMoviesWithAxios()
 
     }, [])
 
@@ -48,25 +55,34 @@ const MovieScreen = ()=>{
 
                return response.json()
 
-
             }).then((data)=>{ // logs the formatted response 
 
-                console.log('This is my data in json format ', data.results[0])
+
+                if(!data?.results){
+
+                    if(data?.message.toLowerCase().includes('Exceeded'.toLowerCase())){
+
+                        return Alert.alert('Message', 'You have exceeded your quote for the month , kindly subscribe!')
+
+                    }
+
+                }
+
+                console.log(data)
+                console.log(data.results)
 
                 setMoviesData(data.results)
 
-                // Alert.alert('Success', "The api call was successful")
+                Alert.alert('Success', "The api call was successful")
 
             }).catch((error)=>{
 
                 console.log('error ', error )
 
-                Alert.alert('Erroe', "The request was unsuccessful")
+                Alert.alert('Error', "The request was unsuccessful")
 
 
             })
-
-
 
         }
         catch(error){
@@ -81,28 +97,121 @@ const MovieScreen = ()=>{
     }
 
 
+    // moviesData && 
+
+
+
+    const getMoviesWithAxios = async ()=>{
+
+
+        try{
+
+            const response = await axios(url, {
+                method:'GET',
+               headers: {
+		        'x-rapidapi-key': '05f1179be4mshfdce8c5340638d0p1a85f3jsn97608f89afcf',
+    	        'x-rapidapi-host': 'imdb236.p.rapidapi.com'
+	        }    
+        })
+
+
+            console.log(response);
+
+        }
+
+        catch(error){
+
+            console.log(error)
+
+        }
+        finally{
+
+        }
+
+
+
+
+
+
+
+
+    }
+
+
     return(
-        <SafeAreaView style={{paddingHorizontal:'10%'}}>
+        <SafeAreaView style={{paddingHorizontal:'10%', backgroundColor:'white', flex:1}}>
 
-            <ScrollView>
+            <FlatList showsVerticalScrollIndicator={false} data={moviesData} renderItem={({item})=>{
 
-   
+                return(
+                     <View>
+                            <Image style={{height:100, width:100}} source={{uri:item.primaryImage}}/>
+                            <Text style={{fontSize:20,marginBottom:5, fontWeight:'bold' }}>{item.primaryTitle}</Text>
 
-
-            <Text style={{color:'black', fontSize:50, textAlign:'center'}}>Movie screen
-
-
-            </Text>
-
-
-            <View style={{marginTop:70}}>
-
-            <ActivityIndicator animating={isFetching} size={'large'} color={'red'}/>
-
-            </View>
+                            <Text style={{fontSize:18}}>{item.description}</Text>
 
 
-            {
+                        </View>
+                )
+
+
+
+            }}
+
+
+            ListHeaderComponent={()=>{
+                return(
+                    <View style={{marginBottom:30}}>
+                        <Text style={{color:'black', fontSize:50, textAlign:'center'}}>Movie Screen</Text>
+                    </View>
+                )
+            }}
+
+
+            ListFooterComponent={()=>{
+
+
+                return(
+                    <View style={{marginVertical:30}}>
+
+                        {
+                            moviesData?.length >= 1 && ( <Text style={{fontSize:30, textAlign:'center', color:'red'}}>This is the end of the List</Text>)
+
+                        
+                        }
+
+                        
+
+                    </View>
+                )
+            }}
+        
+
+            ListEmptyComponent={()=>{
+                return(
+                    <View>
+                        <ActivityIndicator animating={isFetching} size={'large'} color={'red'}/>
+
+                        {/* <Text style={{textAlign:'center'}}>The data is fetching....</Text> */}
+
+                    </View>
+                )
+
+            }}
+
+
+            style={{ paddingVertical:5, marginBottom:100}}
+
+            contentContainerStyle={{backgroundColor:'white', marginBottom:40}}
+            
+            
+            />
+
+
+  
+
+
+            {/* {
                 moviesData?.map((data , index)=>{
 
                     return(
@@ -118,8 +227,11 @@ const MovieScreen = ()=>{
 
                 })
             }
+ */}
 
-                     </ScrollView>
+   
+
+                    
 
 
         </SafeAreaView>

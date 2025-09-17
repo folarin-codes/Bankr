@@ -201,7 +201,7 @@ export default function Index() {
 
         <Button onPress={()=>{
           router.push('./movie')
-        }} text={'Register'}/>
+        }} text={'Route to Movie screen'}/>
 
       </View>
 
